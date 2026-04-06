@@ -102,19 +102,24 @@ ckeckEmptyList();
 }
 
 function ckeckEmptyList() {
-  if(tasks.length === 0){
-    const emptyListHTML = `<li id="emptyList" class="list-group-item empty-list">
-					<img src="./img/leaf.svg" alt="Empty" width="48" class="mt-3">
-					<div class="empty-list__title">Список дел пуст</div>
-				</li>`;
-        tasksList.insertAdjacentHTML("afterbegin", emptyListHTML);
-  }
+    // 1. Ищем, есть ли уже такой элемент на странице
+    const emptyListElement = document.querySelector('#emptyList');
 
-  if (tasks.length > 0) {
-    const emptyListEL = document.querySelector("#emptyList");
-    emptyListEL ? emptyListEL.remove() : null;
-  }
-
+    if (tasks.length === 0) {
+        // Если задач нет и элемента еще нет на странице — добавляем его
+        if (!emptyListElement) {
+            const emptyListHTML = `<li id="emptyList" class="list-group-item empty-list">
+                <img src="./img/leaf.svg" alt="Empty" width="48" class="mt-3">
+                <div class="empty-list__title">Список дел пуст</div>
+            </li>`;
+            tasksList.insertAdjacentHTML("afterbegin", emptyListHTML);
+        }
+    } else {
+        // Если задачи есть — удаляем элемент, если он существует
+        if (emptyListElement) {
+            emptyListElement.remove();
+        }
+    }
 }
 
 function saveToLocalStorage(){
